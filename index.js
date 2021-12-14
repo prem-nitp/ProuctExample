@@ -17,8 +17,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.set('view - engine', 'ejs');
 
-app.get('/dog', (req, res) => {
-    res.send("hiii");
+app.get('/products', async (req, res) => {
+    const products = await Product.find({});
+    console.log(products);
+    res.render('products/index.ejs', { products });
 })
 
 app.listen(3000, () => {
