@@ -14,13 +14,23 @@ const app = express()
 
 const path = require("path")
 app.set('views', path.join(__dirname, 'views'));
-
 app.set('view - engine', 'ejs');
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/products', async (req, res) => {
     const products = await Product.find({});
     // console.log(products);
     res.render('products/index.ejs', { products });
+})
+app.post('/products', (req, res) => {
+    //console.log(req.body)
+    const newProduct = new Product(req.body);
+    newProduct.save();
+    console.log(newProduct);
+    res.redirect(`/products/${newProduct._id}`);
+})
+app.get('/products/new', (req, res) => {
+    res.render('products/new.ejs')
 })
 app.get('/products/:id', async (req, res) => {
     const { id } = req.params;
